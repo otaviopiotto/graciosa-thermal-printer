@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
     "@thiagoelg/node-printer": "^0.6.2",
     "@types/cors": "^2.8.13",
