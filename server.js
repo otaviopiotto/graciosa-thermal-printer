@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { ThermalPrinter, PrinterTypes } = require("node-thermal-printer");
 const express = require("express");
 const cors = require("cors");
@@ -122,6 +123,6 @@ app.post("/loan", async (req, res) => {
   }
 });
 
-app.listen(8000);
+app.listen(process.env.PORT || 8000);
 
 module.exports = app;
