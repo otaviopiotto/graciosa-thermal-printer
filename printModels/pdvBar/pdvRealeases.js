@@ -77,7 +77,11 @@ const body = async (printer, data) => {
   );
   printer.newLine();
   printer.newLine();
-  printer.println(`FORMA PGTO: ${data?.payment_plan_description || ""}`);
+  printer.println(
+    `FORMA PGTO: ${
+      data?.payment_plan_description || data?.payment_method_description || ""
+    }`
+  );
 };
 
 const operatorVia = async (printer, data) => {
@@ -117,6 +121,20 @@ const agentVia = async (printer, data) => {
 };
 
 const pdvRealease = async (printer, data) => {
+  if (data?.multiple) {
+    data?.data.forEach(async (e) => {
+      try {
+        await operatorVia(printer, e);
+        await agentVia(printer, e);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    });
+
+    return;
+  }
+
   try {
     await operatorVia(printer, data);
     await agentVia(printer, data);

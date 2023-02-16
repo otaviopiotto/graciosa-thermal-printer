@@ -1,4 +1,5 @@
 const { format } = require("date-fns");
+const DateIndicator = require("../../components/dateIndicator");
 
 const printPdvHeader = async (
   printer,
@@ -26,7 +27,7 @@ const printPdvHeader = async (
       },
     ]);
   }
-  if (data?.user) {
+  if (data?.user && !data?.is_cashier_closure && !data?.is_sell_items) {
     printer.tableCustom([
       {
         text: `Operador: ${data?.user?.code} ${data?.user?.name}`,
@@ -67,6 +68,24 @@ const printPdvHeader = async (
         width: 2,
       },
     ]);
+  }
+
+  if (data?.is_sell_items) {
+    printer.println(
+      `PERIODO ENTRE: ${DateIndicator(
+        data?.period_start,
+        "dd/MM/yyyy"
+      )} a ${DateIndicator(data?.period_end, "dd/MM/yyyy")}`
+    );
+  }
+
+  if (data?.is_cashier_closure) {
+    printer.println(
+      `PERIODO ENTRE: ${DateIndicator(
+        data?.period_start,
+        "dd/MM/yyyy HH:mm:ss"
+      )} a ${DateIndicator(data?.period_end, "dd/MM/yyyy HH:mm:ss")}`
+    );
   }
 
   printer.drawLine();
