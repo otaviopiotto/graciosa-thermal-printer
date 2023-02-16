@@ -16,10 +16,10 @@ const printLoanHeader = async (
     { text: type, align: "RIGHT", width: 0.5 },
   ]);
 
-  if (data?.user) {
+  if (data.user) {
     printer.tableCustom([
       {
-        text: `Operador: ${data?.user?.code} ${data?.user?.name}`,
+        text: `Operador: ${data.user.code} ${data.user.name}`,
         align: "LEFT",
         width: fullWidth,
       },

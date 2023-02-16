@@ -15,19 +15,19 @@ const printLibraryHeader = async (
   printer.println(`${companyName} - ${type}`);
   printer.println(`Data: ${date}`);
 
-  if (data?.user) {
+  if (data.user) {
     printer.tableCustom([
       {
-        text: `Usuário: ${data?.user?.code} ${data?.user?.name}`,
+        text: `Usuário: ${data.user.code} ${data.user.name}`,
         align: "LEFT",
         width: fullWidth,
       },
     ]);
   }
-  if (data?.associate) {
+  if (data.associate) {
     printer.tableCustom([
       {
-        text: `Matrícula Agente: ${data?.associate?.code} ${data?.associate?.name}`,
+        text: `Matrícula Agente: ${data.associate.code} ${data.associate.name}`,
         align: "LEFT",
         width: fullWidth,
       },

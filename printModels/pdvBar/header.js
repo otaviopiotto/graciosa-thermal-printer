@@ -18,73 +18,73 @@ const printPdvHeader = async (
     { text: type, align: "RIGHT", width: 0.5 },
   ]);
 
-  if (data?.cashier) {
+  if (data.cashier) {
     printer.tableCustom([
       {
-        text: `Caixa: ${data?.cashier?.name}`,
+        text: `Caixa: ${data.cashier.name}`,
         align: "LEFT",
         width: fullWidth,
       },
     ]);
   }
-  if (data?.user && !data?.is_cashier_closure && !data?.is_sell_items) {
+  if (data.user && !data.is_cashier_closure && !data.is_sell_items) {
     printer.tableCustom([
       {
-        text: `Operador: ${data?.user?.code} ${data?.user?.name}`,
+        text: `Operador: ${data.user.code} ${data.user.name}`,
         align: "LEFT",
         width: fullWidth,
       },
     ]);
   }
-  if (data?.waiter) {
+  if (data.waiter) {
     printer.tableCustom([
       {
-        text: `Garçom/Atend: ${data?.waiter?.code} ${data?.waiter?.name}`,
+        text: `Garçom/Atend: ${data.waiter.code} ${data.waiter.name}`,
         align: "LEFT",
         width: fullWidth,
       },
     ]);
   }
 
-  if (data?.is_table_preview) {
+  if (data.is_table_preview) {
     printer.tableCustom([
       {
-        text: "Mesa:" + data?.number + " - Data/Hora: " + date,
+        text: "Mesa:" + data.number + " - Data/Hora: " + date,
         align: "LEFT",
         width: fullWidth,
       },
     ]);
   }
-  if (data?.is_pdv_realease) {
+  if (data.is_pdv_realease) {
     printer.tableCustom([
       {
         text:
           date +
           " - Ticket N:" +
-          data?.ticket_number +
+          data.ticket_number +
           " - Cod. Agente: " +
-          data?.associate?.code,
+          data.associate.code,
         align: "LEFT",
         width: 2,
       },
     ]);
   }
 
-  if (data?.is_sell_items) {
+  if (data.is_sell_items) {
     printer.println(
       `PERIODO ENTRE: ${DateIndicator(
-        data?.period_start,
+        data.period_start,
         "dd/MM/yyyy"
-      )} a ${DateIndicator(data?.period_end, "dd/MM/yyyy")}`
+      )} a ${DateIndicator(data.period_end, "dd/MM/yyyy")}`
     );
   }
 
-  if (data?.is_cashier_closure) {
+  if (data.is_cashier_closure) {
     printer.println(
       `PERIODO ENTRE: ${DateIndicator(
-        data?.period_start,
+        data.period_start,
         "dd/MM/yyyy HH:mm:ss"
-      )} a ${DateIndicator(data?.period_end, "dd/MM/yyyy HH:mm:ss")}`
+      )} a ${DateIndicator(data.period_end, "dd/MM/yyyy HH:mm:ss")}`
     );
   }
 

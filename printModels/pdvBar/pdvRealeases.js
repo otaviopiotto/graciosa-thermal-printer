@@ -7,9 +7,9 @@ const body = async (printer, data) => {
     { ...data, is_pdv_realease: true },
     "COMPROVANTE DE VENDA"
   );
-  const ticketTotal = data?.items?.reduce?.((sum, e) => {
+  const ticketTotal = data.items.reduce.((sum, e) => {
     return (
-      (sum?.value ? sum?.value * sum.quantity : sum) + e?.value * e.quantity
+      (sum.value ? sum.value * sum.quantity : sum) + e.value * e.quantity
     );
   }, 0);
 
@@ -37,26 +37,26 @@ const body = async (printer, data) => {
     },
   ]);
 
-  data?.items?.map((e) =>
+  data.items.map((e) =>
     printer.tableCustom([
       {
-        text: e?.table_product_code?.toString().padStart(4, "0") + "",
+        text: e.table_product_code.toString().padStart(4, "0") + "",
         width: 0.1,
       },
       {
-        text: e?.description,
+        text: e.description,
         width: 0.42,
       },
       {
-        text: e?.quantity + "",
+        text: e.quantity + "",
         width: 0.1,
       },
       {
-        text: e?.value.toFixed(2) + "",
+        text: e.value.toFixed(2) + "",
         width: 0.11,
       },
       {
-        text: (e?.value * e?.quantity).toFixed(2) + "",
+        text: (e.value * e.quantity).toFixed(2) + "",
         width: 0.2,
         align: "RIGHT",
       },
@@ -70,7 +70,7 @@ const body = async (printer, data) => {
 
   printer.println(
     "(" +
-      extenso(ticketTotal?.toFixed(2)?.toString()?.replace(".", ","), {
+      extenso(ticketTotal.toFixed(2).toString().replace(".", ","), {
         mode: "currency",
       }) +
       ")"
@@ -79,7 +79,7 @@ const body = async (printer, data) => {
   printer.newLine();
   printer.println(
     `FORMA PGTO: ${
-      data?.payment_plan_description || data?.payment_method_description || ""
+      data.payment_plan_description || data.payment_method_description || ""
     }`
   );
 };
@@ -107,7 +107,7 @@ const agentVia = async (printer, data) => {
   printer.newLine();
   printer.alignCenter();
   printer.println("-------------------------");
-  printer.println(data?.associate?.name);
+  printer.println(data.associate.name);
   printer.newLine();
   printer.drawLine();
   printer.cut();
@@ -121,8 +121,8 @@ const agentVia = async (printer, data) => {
 };
 
 const pdvRealease = async (printer, data) => {
-  if (data?.multiple) {
-    data?.data.forEach(async (e) => {
+  if (data.multiple) {
+    data.data.forEach(async (e) => {
       try {
         await operatorVia(printer, e);
         await agentVia(printer, e);

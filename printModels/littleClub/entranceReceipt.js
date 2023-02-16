@@ -10,14 +10,14 @@ const body = async (printer, data) => {
   printer.alignLeft();
   printer.println(
     `${format(new Date(), "dd/MM/yyyy HH:mm:ss")} - Código Seq. ${
-      data?.code
-    } Mat. ${data?.dependent_code} Tit.`
+      data.code
+    } Mat. ${data.dependent_code} Tit.`
   );
   printer.newLine();
-  printer.println(`NOME DA CRIANÇA: ${data?.dependent?.name}`);
+  printer.println(`NOME DA CRIANÇA: ${data.dependent.name}`);
   printer.newLine();
   printer.println(
-    `ENTRADA: ${format(new Date(data?.entry_date), "dd/MM/yyyy HH:mm:ss")}`
+    `ENTRADA: ${format(new Date(data.entry_date), "dd/MM/yyyy HH:mm:ss")}`
   );
 
   printer.newLine();
@@ -54,7 +54,7 @@ const agentVia = async (printer, data) => {
   printer.newLine();
   printer.alignCenter();
   printer.println("-------------------------");
-  printer.println(data?.associate?.name);
+  printer.println(data.associate.name);
   printer.newLine();
   printer.drawLine();
   printer.cut();

@@ -10,25 +10,25 @@ const body = async (printer, data) => {
   printer.alignLeft();
   printer.println(
     `${format(new Date(), "dd/MM/yyyy HH:mm:ss")} - Matric. ${
-      data?.associate_code
+      data.associate_code
     }`
   );
   printer.newLine();
-  printer.println(`CODIGO DO EMPRESTIMO: ${data?.code}`);
+  printer.println(`CODIGO DO EMPRESTIMO: ${data.code}`);
   printer.println(
     `DATA DO EMPRESTIMO: ${format(new Date(), "dd/MM/yyyy HH:mm:ss")}`
   );
   printer.println(
     `DATA DA DEVOLUCAO: ${format(
-      new Date(data?.borrow_date),
+      new Date(data.borrow_date),
       "dd/MM/yyyy HH:mm:ss"
     )}`
   );
-  printer.println(`OBJETO: ${data?.object?.name}`);
-  printer.println(`LOCAL DE EMPRESTIMO: ${data?.location?.description}`);
-  printer.println(`LOCAL DE DEVOLUCAO: ${data?.devolution_cashier?.name}`);
-  printer.println(`QUANTIDADE: ${data?.quantity}`);
-  printer.println(`IDENTIFICADOR/ARMARIO: ${data?.identification}`);
+  printer.println(`OBJETO: ${data.object.name}`);
+  printer.println(`LOCAL DE EMPRESTIMO: ${data.location.description}`);
+  printer.println(`LOCAL DE DEVOLUCAO: ${data.devolution_cashier.name}`);
+  printer.println(`QUANTIDADE: ${data.quantity}`);
+  printer.println(`IDENTIFICADOR/ARMARIO: ${data.identification}`);
 };
 
 const operatorVia = async (printer, data) => {
@@ -52,7 +52,7 @@ const agentVia = async (printer, data) => {
   printer.alignCenter();
   printer.println("******************** ATENCAO ********************");
   printer.println(
-    `A NAO DEVOLUCAO DO OBJETO ACIMA DESCRITO, IMPLICA NO LANCAMENTO DE DEBITO NO VALOR DE R$ ${data?.fine} EM SUA FATURA MENSAL.`
+    `A NAO DEVOLUCAO DO OBJETO ACIMA DESCRITO, IMPLICA NO LANCAMENTO DE DEBITO NO VALOR DE R$ ${data.fine} EM SUA FATURA MENSAL.`
   );
   printer.println("******************************************************");
   printer.newLine();
@@ -64,7 +64,7 @@ const agentVia = async (printer, data) => {
   printer.newLine();
   printer.alignCenter();
   printer.println("---------------------------------------");
-  printer.println(`${data?.associate_code} - ${data?.associate?.name}`);
+  printer.println(`${data.associate_code} - ${data.associate.name}`);
   printer.newLine();
   printer.drawLine();
   printer.cut();

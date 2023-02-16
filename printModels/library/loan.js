@@ -25,18 +25,18 @@ const body = async (printer, data) => {
     },
   ]);
 
-  data?.books?.map((e) =>
+  data.books.map((e) =>
     printer.tableCustom([
       {
-        text: e?.book_code?.toString().padStart(4, "0") + "",
+        text: e.book_code.toString().padStart(4, "0") + "",
         width: 0.1,
       },
       {
-        text: e?.book_title,
+        text: e.book_title,
         width: 0.58,
       },
       {
-        text: format(new Date(e?.expected_return_date), "dd/MM/yyyy"),
+        text: format(new Date(e.expected_return_date), "dd/MM/yyyy"),
         width: 0.3,
         align: "RIGHT",
       },
@@ -79,7 +79,7 @@ const agentVia = async (printer, data) => {
   printer.newLine();
   printer.alignCenter();
   printer.println("-------------------------");
-  printer.println(data?.associate?.name);
+  printer.println(data.associate.name);
   printer.newLine();
   printer.drawLine();
   printer.cut();

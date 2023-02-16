@@ -2,9 +2,9 @@ const extenso = require("extenso");
 const printPdvHeader = require("./header");
 
 const tablePreview = async (printer, data) => {
-  const ticketTotal = data?.table_items.reduce?.((sum, e) => {
+  const ticketTotal = data.table_items.reduce.((sum, e) => {
     return (
-      (sum?.value ? sum?.value * sum.quantity : sum) + e?.value * e.quantity
+      (sum.value ? sum.value * sum.quantity : sum) + e.value * e.quantity
     );
   }, 0);
 
@@ -34,26 +34,26 @@ const tablePreview = async (printer, data) => {
     },
   ]);
 
-  data?.table_items?.map((e) =>
+  data.table_items.map((e) =>
     printer.tableCustom([
       {
-        text: e?.item?.table_product_code?.toString().padStart(4, "0") + "",
+        text: e.item.table_product_code.toString().padStart(4, "0") + "",
         width: 0.1,
       },
       {
-        text: e?.item?.description,
+        text: e.item.description,
         width: 0.42,
       },
       {
-        text: e?.quantity + "",
+        text: e.quantity + "",
         width: 0.1,
       },
       {
-        text: e?.value.toFixed(2) + "",
+        text: e.value.toFixed(2) + "",
         width: 0.11,
       },
       {
-        text: (e?.value * e?.quantity).toFixed(2) + "",
+        text: (e.value * e.quantity).toFixed(2) + "",
         width: 0.23,
         align: "RIGHT",
       },
@@ -62,24 +62,24 @@ const tablePreview = async (printer, data) => {
 
   printer.newLine();
   printer.alignLeft();
-  printer.println("ITENS CONSUMIDOS:" + data?.table_items?.length);
+  printer.println("ITENS CONSUMIDOS:" + data.table_items.length);
   printer.newLine();
   printer.println(`VALOR DAS DESPESAS: ${ticketTotal.toFixed(2)}`);
   printer.println(`VALOR TOTAL: ${ticketTotal.toFixed(2)}`);
   printer.newLine();
   printer.println(
-    `VALOR POR PESSOA (${data?.busy_seats}): ${(
-      ticketTotal / data?.busy_seats
+    `VALOR POR PESSOA (${data.busy_seats}): ${(
+      ticketTotal / data.busy_seats
     ).toFixed(2)}`
   );
 
   printer.println(
     "(" +
       extenso(
-        (ticketTotal / data?.busy_seats)
-          ?.toFixed(2)
-          ?.toString()
-          ?.replace(".", ","),
+        (ticketTotal / data.busy_seats)
+          .toFixed(2)
+          .toString()
+          .replace(".", ","),
         {
           mode: "currency",
         }
@@ -88,7 +88,7 @@ const tablePreview = async (printer, data) => {
   );
   printer.newLine();
   printer.newLine();
-  printer.println(`OBSERVAÇÔES: ${data?.observation || ""}`);
+  printer.println(`OBSERVAÇÔES: ${data.observation || ""}`);
   printer.drawLine();
 
   printer.cut();
