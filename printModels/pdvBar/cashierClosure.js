@@ -10,9 +10,9 @@ const body = async (printer, data) => {
     "FECHAMENTO DE CAIXA"
   );
 
-  const ticketTotal = data.items.reduce.((sum, e) => {
+  const ticketTotal = data.items.reduce((sum, e) => {
     return (
-      (sum.value ? Number(sum.total_value) * 1 : sum) +
+      (sum.total_value ? Number(sum.total_value) * 1 : sum) +
       Number(e.total_value) * 1
     );
   }, 0);
@@ -20,9 +20,9 @@ const body = async (printer, data) => {
   const getAllMoneyPayment = data.items.filter(
     (e) => e.payment_plan_code === "2"
   );
-  const moneyTotal = getAllMoneyPayment.reduce.((sum, e) => {
+  const moneyTotal = getAllMoneyPayment.reduce((sum, e) => {
     return (
-      (sum.value ? Number(sum.total_value) * 1 : sum) +
+      (sum.total_value ? Number(sum.total_value) * 1 : sum) +
       Number(e.total_value) * 1
     );
   }, 0);
@@ -30,9 +30,9 @@ const body = async (printer, data) => {
   const getAllOtherPayment = data.items.filter(
     (e) => e.payment_plan_code !== "2"
   );
-  const otherTotal = getAllOtherPayment.reduce.((sum, e) => {
+  const otherTotal = getAllOtherPayment.reduce((sum, e) => {
     return (
-      (sum.value ? Number(sum.total_value) * 1 : sum) +
+      (sum.total_value ? Number(sum.total_value) * 1 : sum) +
       Number(e.total_value) * 1
     );
   }, 0);
@@ -40,9 +40,9 @@ const body = async (printer, data) => {
   const getAllCanceled = data.items.filter((e) =>
     e.st_payed.toLowerCase().includes("cancelado")
   );
-  const canceledTotal = getAllCanceled.reduce.((sum, e) => {
+  const canceledTotal = getAllCanceled.reduce((sum, e) => {
     return (
-      (sum.value ? Number(sum.total_value) * 1 : sum) +
+      (sum.total_value ? Number(sum.total_value) * 1 : sum) +
       Number(e.total_value) * 1
     );
   }, 0);
@@ -50,9 +50,9 @@ const body = async (printer, data) => {
   const getAllReturned = data.items.filter((e) =>
     e.st_payed.toLowerCase().includes("estornado")
   );
-  const returnedTotal = getAllReturned.reduce.((sum, e) => {
+  const returnedTotal = getAllReturned.reduce((sum, e) => {
     return (
-      (sum.value ? Number(sum.total_value) * 1 : sum) +
+      (sum.total_value ? Number(sum.total_value) * 1 : sum) +
       Number(e.total_value) * 1
     );
   }, 0);
@@ -133,7 +133,7 @@ const body = async (printer, data) => {
   if (getAllMoneyPayment.length) {
     printer.println(
       "(" +
-        extenso(ticketTotal.toFixed(2).toString().replace(".", ","), {
+        extenso(moneyTotal.toFixed(2).toString().replace(".", ","), {
           mode: "currency",
         }) +
         ")"
@@ -201,32 +201,10 @@ const operatorVia = async (printer, data) => {
     return false;
   }
 };
-const agentVia = async (printer, data) => {
-  body(printer, data);
-
-  printer.newLine();
-  printer.println("RECONHEÇO E PAGAREI A IMPORTÂNCIA ACIMA");
-  printer.newLine();
-  printer.newLine();
-  printer.alignCenter();
-  printer.println("-------------------------");
-  printer.println(data.associate.name);
-  printer.newLine();
-  printer.drawLine();
-  printer.cut();
-
-  try {
-    printer.execute();
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
 
 const cashierClosure = async (printer, data) => {
   try {
     await operatorVia(printer, data);
-    // await agentVia(printer, data);
     return true;
   } catch (error) {
     return false;

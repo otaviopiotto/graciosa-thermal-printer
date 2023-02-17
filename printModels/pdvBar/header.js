@@ -1,9 +1,22 @@
 const { format } = require("date-fns");
 const DateIndicator = require("../../components/dateIndicator");
 
+const defaultHeaderInf = {
+  cashier: null,
+  user: null,
+  waiter: null,
+  is_cashier_closure: false,
+  is_sell_items: false,
+  is_table_preview: false,
+  is_pdv_realease: false,
+  is_cashier_closure: false,
+  ticket_number: "",
+  associate: null,
+};
+
 const printPdvHeader = async (
   printer,
-  data,
+  data = defaultHeaderInf,
   type = "",
   companyName = "GRACIOSA COUNTRY CLUB"
 ) => {

@@ -7,10 +7,8 @@ const body = async (printer, data) => {
     { ...data, is_pdv_realease: true },
     "COMPROVANTE DE VENDA"
   );
-  const ticketTotal = data.items.reduce.((sum, e) => {
-    return (
-      (sum.value ? sum.value * sum.quantity : sum) + e.value * e.quantity
-    );
+  const ticketTotal = data.items.reduce((sum, e) => {
+    return (sum.value ? sum.value * sum.quantity : sum) + e.value * e.quantity;
   }, 0);
 
   printer.tableCustom([
@@ -76,7 +74,10 @@ const body = async (printer, data) => {
       ")"
   );
   printer.newLine();
-  printer.newLine();
+  if (data.history) {
+    printer.println(`HISTORICO: ${data.history}`);
+    printer.newLine();
+  }
   printer.println(
     `FORMA PGTO: ${
       data.payment_plan_description || data.payment_method_description || ""
@@ -124,7 +125,6 @@ const pdvRealease = async (printer, data) => {
   if (data.multiple) {
     data.data.forEach(async (e) => {
       try {
-        await operatorVia(printer, e);
         await agentVia(printer, e);
         return true;
       } catch (error) {
@@ -136,7 +136,7 @@ const pdvRealease = async (printer, data) => {
   }
 
   try {
-    await operatorVia(printer, data);
+    await agentVia(printer, data);
     await agentVia(printer, data);
     return true;
   } catch (error) {

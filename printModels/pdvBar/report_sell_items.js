@@ -9,7 +9,7 @@ const body = async (printer, data) => {
     "RELATORIO DE VENDA DE ITENS"
   );
 
-  const ticketTotal = data.items.reduce.((sum, e) => {
+  const ticketTotal = data.items.reduce((sum, e) => {
     return (
       (sum.value ? Number(sum.total_value) * Number(sum.quantity) : sum) +
       Number(e.total_value) * Number(e.quantity)

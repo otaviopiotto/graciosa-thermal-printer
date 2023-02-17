@@ -8,10 +8,8 @@ const body = async (printer, data) => {
     "COMPROVANTE DE VENDA"
   );
 
-  const ticketTotal = data.table_items.reduce.((sum, e) => {
-    return (
-      (sum.value ? sum.value * sum.quantity : sum) + e.value * e.quantity
-    );
+  const ticketTotal = data.table_items.reduce((sum, e) => {
+    return (sum.value ? sum.value * sum.quantity : sum) + e.value * e.quantity;
   }, 0);
 
   printer.tableCustom([
