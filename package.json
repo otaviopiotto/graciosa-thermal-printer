@@ -1,5 +1,5 @@
 {
-  "name": "graciosa thermal Printer",
+  "name": "graciosa-thermal-printer",
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",
