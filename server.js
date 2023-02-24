@@ -15,9 +15,19 @@ const { SerialPort } = require('serialport')
 const app = express();
 
 
-const dieboldPort = new SerialPort({ path: 'LTP1', baudRate: 9600, autoOpen: false })
+const dieboldPort = new SerialPort({ path: 'COM1', baudRate: 9600, autoOpen: false })
 
-dieboldPort.open(data => console.log(data))
+dieboldPort.open(err => {
+
+  if (!err) {
+    printer = dieboldPrinter
+    console.log('is Connected to DIEBOLD')
+  }
+  else {
+    console.log({ dieboldErr: err })
+  }
+
+})
 
 let printer;
 
@@ -43,12 +53,6 @@ const dieboldPrinter = new ThermalPrinter({
 });
 
 
-dieboldPrinter.isPrinterConnected().then(connect => {
-  console.log(connect)
-  printer = dieboldPrinter
-  console.log('is Connected to DIEBOLD')
-
-}).catch(err => console.log({ dieboldErr: err }))
 
 epsonPrinter.isPrinterConnected().then(connect => {
   console.log(connect)
