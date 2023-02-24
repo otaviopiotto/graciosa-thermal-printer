@@ -15,7 +15,8 @@ const app = express();
 
 const printer = new ThermalPrinter({
   type: PrinterTypes.EPSON,
-  interface: "printer:EPSON TM-T88V Receipt",
+   // interface: "printer:EPSON TM-T88V Receipt",
+  interface: "printer:diebold tsp143mp",
   options: {
     timeout: 1000,
   },
