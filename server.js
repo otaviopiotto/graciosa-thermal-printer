@@ -11,23 +11,23 @@ const loanReceipt = require("./printModels/loan/loan");
 const devolutionReceipt = require("./printModels/loan/devolution");
 const sellItems = require("./printModels/pdvBar/report_sell_items");
 const cashierClosure = require("./printModels/pdvBar/cashierClosure");
-const { SerialPort } = require('serialport')
+const { SerialPort } = require("serialport");
 const app = express();
 
+const dieboldPort = new SerialPort({
+  path: "COM1",
+  baudRate: 9600,
+  autoOpen: false,
+});
 
-const dieboldPort = new SerialPort({ path: 'COM1', baudRate: 9600, autoOpen: false })
-
-dieboldPort.open(err => {
-
+dieboldPort.open((err) => {
   if (!err) {
-    printer = dieboldPrinter
-    console.log('is Connected to DIEBOLD')
+    printer = dieboldPrinter;
+    console.log("is Connected to DIEBOLD");
+  } else {
+    console.log({ dieboldErr: err });
   }
-  else {
-    console.log({ dieboldErr: err })
-  }
-
-})
+});
 
 let printer;
 
@@ -41,10 +41,8 @@ const epsonPrinter = new ThermalPrinter({
   driver: require("@thiagoelg/node-printer"),
 });
 
-
-
 const dieboldPrinter = new ThermalPrinter({
-  type: PrinterTypes.EPSON,
+  type: PrinterTypes.STAR,
   interface: dieboldPort,
   options: {
     timeout: 1000,
@@ -52,23 +50,21 @@ const dieboldPrinter = new ThermalPrinter({
   width: 56,
 });
 
-
-
-epsonPrinter.isPrinterConnected().then(connect => {
-  console.log(connect)
-  printer = epsonPrinter
-  console.log('is Connected to EPSON TM-T88V')
-
-}).catch(err => console.log({ epsonError: err }))
-
-
-
+epsonPrinter
+  .isPrinterConnected()
+  .then((connect) => {
+    console.log(connect);
+    printer = epsonPrinter;
+    console.log("is Connected to EPSON TM-T88V");
+  })
+  .catch((err) => console.log({ epsonError: err }));
 
 app.use(
   express.urlencoded({
     extended: true,
   })
 );
+
 app.use(cors());
 
 app.use(express.json());
