@@ -1,3 +1,6 @@
+//Possível Solução, achado nos códios do M2V
+//https://www.projetoacbr.com.br/forum/topic/23975-contribui%C3%A7%C3%A3o-suporte-a-impressoras-diebold-tsp143mumd-posprinter/
+
 //TEST1
 //https://github.com/song940/node-escpos/blob/v3/packages/serialport/README.md
 // const escpos = require("escpos");
