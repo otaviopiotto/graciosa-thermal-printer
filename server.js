@@ -11,23 +11,7 @@ const loanReceipt = require("./printModels/loan/loan");
 const devolutionReceipt = require("./printModels/loan/devolution");
 const sellItems = require("./printModels/pdvBar/report_sell_items");
 const cashierClosure = require("./printModels/pdvBar/cashierClosure");
-const { SerialPort } = require("serialport");
 const app = express();
-
-const dieboldPort = new SerialPort({
-  path: "COM1",
-  baudRate: 9600,
-  autoOpen: false,
-});
-
-dieboldPort.open((err) => {
-  if (!err) {
-    printer = dieboldPrinter;
-    console.log("is Connected to DIEBOLD");
-  } else {
-    console.log({ dieboldErr: err });
-  }
-});
 
 let printer;
 
@@ -39,15 +23,6 @@ const epsonPrinter = new ThermalPrinter({
   },
   width: 56,
   driver: require("@thiagoelg/node-printer"),
-});
-
-const dieboldPrinter = new ThermalPrinter({
-  type: PrinterTypes.STAR,
-  interface: dieboldPort,
-  options: {
-    timeout: 1000,
-  },
-  width: 56,
 });
 
 epsonPrinter

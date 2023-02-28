@@ -1,62 +1,85 @@
 //Possível Solução, achado nos códios do M2V
 //https://www.projetoacbr.com.br/forum/topic/23975-contribui%C3%A7%C3%A3o-suporte-a-impressoras-diebold-tsp143mumd-posprinter/
 
-//TEST1
-//https://github.com/song940/node-escpos/blob/v3/packages/serialport/README.md
-// const escpos = require("escpos");
+//Teste 1 - simples
+// const { ThermalPrinter, PrinterTypes } = require("node-thermal-printer");
 
-// escpos.SerialPort = require("escpos-serialport");
-
-// const serialDeviceOnWindows = new escpos.SerialPort("COM1");
-
-//TEST2
-
-// const escpos = require("escpos");
-// install escpos-usb adapter module manually
-// escpos.USB = require("escpos-usb");
-
-// console.log(escpos.USB.findPrinter());
-
-// Select the adapter based on your printer type
-// const device = new escpos.USB();
-
-// const printer = new escpos.Printer(device);
-
-// device.open(function (error) {
-//   printer
-//     .font("a")
-//     .align("ct")
-//     .style("bu")
-//     .size(1, 1)
-//     .text("The quick brown fox jumps over the lazy dog")
-//     .text("敏捷的棕色狐狸跳过懒狗")
-//     .barcode("1234567", "EAN8")
-//     .table(["One", "Two", "Three"])
-//     .tableCustom(
-//       [
-//         { text: "Left", align: "LEFT", width: 0.33, style: "B" },
-//         { text: "Center", align: "CENTER", width: 0.33 },
-//         { text: "Right", align: "RIGHT", width: 0.33 },
-//       ],
-//       { encoding: "cp857", size: [1, 1] } // Optional
-//     )
-//     .qrimage("https://github.com/song940/node-escpos", function (err) {
-//       this.cut();
-//       this.close();
-//     });
+// const dieboldPrinter = new ThermalPrinter({
+//   type: PrinterTypes.STAR,
+//   interface: "LPT1",
+//   options: {
+//     timeout: 1000,
+//   },
+//   width: 56,
+//   driver: require("./Driver_Impressora_Termica_Diebold_USB TSP143MU-201/MEGENCOM32.dll"),
 // });
 
-//TEST 3
+// console.log(dieboldPrinter);
 
-const { ThermalPrinter, PrinterTypes } = require("node-thermal-printer");
+// const teste1 = () => {
+//   dieboldPrinter.drawLine();
+//   dieboldPrinter.println("Hello Word");
+//   dieboldPrinter.cut();
+// };
+// teste1();
 
-const dieboldPrinter = new ThermalPrinter({
-  type: PrinterTypes.STAR,
-  interface: "COM1",
-  options: {
-    timeout: 1000,
-  },
-  width: 56,
+// //Teste 2 - conversão de pascal pra js
+//https://cursos.alura.com.br/forum/topico-como-fazer-chamadas-de-funcoes-de-dll-com-node-js-148887
+// const edge = require("edge-js");
+
+// // const openPort = edge.func(
+// //   "./Driver_Impressora_Termica_Diebold_USB TSP143MU-201/MEGENCOM32.dll"
+// // );
+// const openPort = edge.func({
+//   assemblyFile:
+//     "./Driver_Impressora_Termica_Diebold_USB TSP143MU-201/MEGENCOM32.dll",
+//   typeName: "MEGENCOM32_AbrirDispositivo",
+// });
+
+// const portOpened = edge.func({
+//   assemblyFile:
+//     "./Driver_Impressora_Termica_Diebold_USB TSP143MU-201/MEGENCOM32.dll",
+//   typeName: "MECAFCOD_RET_SUCESSO",
+// });
+
+// function AbrirPorta() {
+//   let iRet;
+//   iRet = openPort(["LPT1", 0, 0, 0, 0, 0], function (err, res) {});
+//   if (iRet !== portOpened) {
+//     // Tratamento em caso de Erro
+//     console.log("erro ao conectar com a porta LPT1");
+//     return false;
+//   }
+//   console.log("conectado com a porta LPT1");
+//   // Tratamento em caso de Sucesso
+//   return true;
+// }
+
+// AbrirPorta();
+
+//teste pessoal
+
+// const pTeste = edge.func("test.cs");
+// const pTeste = edge.func({
+//   assemblyFile: "test.cs",
+//   typeName: "Samples.FooBar.MyType",
+//   methodName: "Soma",
+//   references: ["System.dll", "System.Core.dll", "manifest.manifest"],
+// });
+
+// pTeste(4, 5, function (err, res) {
+//   if (err) throw err;
+//   console.log(res);
+// });
+
+const ffi = require("ffi-napi");
+
+const mydll = ffi.Library("MEGENCOM32.dll", {
+  MEGENCOM32_AbrirDispositivo: [
+    "string",
+    ["string", "int", "int", "int", "int", "int"],
+  ],
 });
 
-console.log(dieboldPrinter);
+const result = mydll.MEGENCOM32_AbrirDispositivo("LPT1", 0, 0, 0, 0, 0);
+console.log(result);
