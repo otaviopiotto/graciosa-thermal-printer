@@ -13,9 +13,7 @@ const sellItems = require("./printModels/pdvBar/report_sell_items");
 const cashierClosure = require("./printModels/pdvBar/cashierClosure");
 const app = express();
 
-let printer;
-
-const epsonPrinter = new ThermalPrinter({
+const printer = new ThermalPrinter({
   type: PrinterTypes.EPSON,
   interface: "printer:EPSON TM-T88V Receipt",
   options: {
@@ -24,15 +22,6 @@ const epsonPrinter = new ThermalPrinter({
   width: 56,
   driver: require("@thiagoelg/node-printer"),
 });
-
-epsonPrinter
-  .isPrinterConnected()
-  .then((connect) => {
-    console.log(connect);
-    printer = epsonPrinter;
-    console.log("is Connected to EPSON TM-T88V");
-  })
-  .catch((err) => console.log({ epsonError: err }));
 
 app.use(
   express.urlencoded({
